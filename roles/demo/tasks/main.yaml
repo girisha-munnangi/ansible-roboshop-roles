@@ -1,3 +1,3 @@
 - name: hello world
   ansible.builtin.debug:
-    msg: "heloo from demo tasks"
+    msg: "hello from demo tasks"

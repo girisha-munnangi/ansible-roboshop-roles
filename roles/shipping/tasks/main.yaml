@@ -8,6 +8,11 @@
     name : common
     tasks_from: java.yaml
 
+- name : moving shipping jar file  
+  ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+  args:
+    chdir : /app
+
 - name : install dependencies
   ansible.builtin.pip:
     name: "{{ item }}"
@@ -16,12 +21,17 @@
   - cryptography
   - PyMYSQL
 
+- name : systemd restart
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd-setup.yaml
+
 - name: import shipping data into mysql
   community.mysql.mysql_db:
     state: import
     name: all
     login_host: "{{ MYSQL_HOST }}"
-    login_user: "{{ MYSQL_ROOT_USER }}"
+    login_user: root
     login_password: "{{ MYSQL_ROOT_PASSWORD }}"
     target: "{{ item }}"
   loop:
@@ -29,9 +39,11 @@
   - /app/db/app-user.sql 
   - /app/db/master-data.sql
 
-- name : systemd restart
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: systemd-setup.yaml
+- name : shipping restart
+  ansible.builtin.service:
+    name: shipping
+    state: restarted
+    enabled: yes
+
 
 

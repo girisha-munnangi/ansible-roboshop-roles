@@ -32,7 +32,7 @@
 - name : systemd restart
   ansible.builtin.service:
     name: "{{ component }}"
-    state: restart
+    state: restarted
 
 
 

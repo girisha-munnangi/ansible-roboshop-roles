@@ -12,4 +12,4 @@ ansible_host: private_ip_address
 keyed groups:
 - seperator: '' 
 # name of the group is frontend
-key: tags.component
+key: tags

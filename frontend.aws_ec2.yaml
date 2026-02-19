@@ -5,4 +5,4 @@ hostnames:
 - ip-address
 filters:
 instance-state-name: running
-tag:name: frontend-dev
+tag:name: ansible
